@@ -314,7 +314,6 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 ## Images from ThingsBoard Set Up:
 ![1](docs/TB/4.png)
 ![2](docs/TB/10.png)
-![3](docs/TB/9.png)
 ![4](docs/TB/13.png)
 ![5](docs/TB/12.png)
 ![6](docs/TB/6.png)
