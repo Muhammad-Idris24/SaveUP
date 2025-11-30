@@ -407,12 +407,12 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 ![soldering](docs/soldering.gif)
 
 ### Dashboard live chart GIF 
-[![Watch the dashboard video on Google Drive](https://drive.google.com/file/d/1hs2bJmc9Yy_GS-9_a4vhEnoFF1ux6UFD/view?usp=drive_link)](drive.google.com)
+[Watch the dashboard video on Google Drive](https://drive.google.com/file/d/1hs2bJmc9Yy_GS-9_a4vhEnoFF1ux6UFD/view?usp=drive_link)
 
 ### Demo of anomaly detection on device serial logs 
-[![Watch the demo video on Google Drive](https://drive.google.com/file/d/1VpVDFjw8piM8jghsZsUL6DXKNRxb5xKh/view?usp=drive_link)](drive.google.com)
+[Watch the demo video on Google Drive](https://drive.google.com/file/d/1VpVDFjw8piM8jghsZsUL6DXKNRxb5xKh/view?usp=drive_link)
 
-[![Watch the demo video on Google Drive](https://drive.google.com/file/d/1K-HEXwurrjPs-uSjK6AqvI_mq2wXUg4D/view?usp=drive_link)](drive.google.com)
+[Watch the demo video on Google Drive](https://drive.google.com/file/d/1K-HEXwurrjPs-uSjK6AqvI_mq2wXUg4D/view?usp=drive_link)
 
 
 # **📌 Notes & Next Steps (Recommended Section for README)**
