@@ -1,0 +1,265 @@
+{
+  "title": "Smart Energy Node Dashboard",
+  "configuration": {
+    "widgets": {
+      "VoltageLineChart": {
+        "type": "timeseries",
+        "title": "Voltage (V)",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "voltage",
+                "type": "timeseries",
+                "label": "Voltage",
+                "units": "V"
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "showLegend": true,
+          "showGrid": true,
+          "smoothLines": true
+        }
+      },
+
+      "CurrentLineChart": {
+        "type": "timeseries",
+        "title": "Current (A)",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "current",
+                "type": "timeseries",
+                "label": "Current",
+                "units": "A"
+              }
+            ]
+          }
+        ]
+      },
+
+      "PowerLineChart": {
+        "type": "timeseries",
+        "title": "Active Power (W)",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "power",
+                "type": "timeseries",
+                "label": "Power",
+                "units": "W"
+              }
+            ]
+          }
+        ]
+      },
+
+      "EnergyGauge": {
+        "type": "gauge",
+        "title": "Energy Today (Wh)",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "energy_daily",
+                "type": "timeseries",
+                "label": "Energy Today",
+                "units": "Wh",
+                "decimals": 2
+              }
+            ]
+          }
+        ],
+        "settings": {
+          "minValue": 0,
+          "maxValue": 5000,
+          "showUnit": true
+        }
+      },
+
+      "EnergyWeekChart": {
+        "type": "timeseries",
+        "title": "Energy This Week (Wh)",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "energy_weekly",
+                "type": "timeseries",
+                "label": "Weekly Energy",
+                "units": "Wh"
+              }
+            ]
+          }
+        ]
+      },
+
+      "CostDaily": {
+        "type": "card",
+        "title": "Cost Today",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "cost_daily",
+                "type": "timeseries",
+                "label": "Daily Cost",
+                "units": "₦",
+                "decimals": 2
+              }
+            ]
+          }
+        ]
+      },
+
+      "CostWeekly": {
+        "type": "card",
+        "title": "Cost This Week",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "cost_weekly",
+                "type": "timeseries",
+                "label": "Weekly Cost",
+                "units": "₦",
+                "decimals": 2
+              }
+            ]
+          }
+        ]
+      },
+
+      "RelaySwitch": {
+        "type": "control-widget",
+        "title": "Relay",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "relay_state",
+                "type": "attributes",
+                "label": "Relay State"
+              }
+            ],
+            "actions": [
+              {
+                "name": "ON",
+                "type": "rpc",
+                "method": "relay_on"
+              },
+              {
+                "name": "OFF",
+                "type": "rpc",
+                "method": "relay_off"
+              }
+            ]
+          }
+        ]
+      },
+
+      "TempHumidGauge": {
+        "type": "dual-gauge",
+        "title": "Temperature / Humidity",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "temperature",
+                "type": "timeseries",
+                "label": "Temperature",
+                "units": "°C"
+              },
+              {
+                "name": "humidity",
+                "type": "timeseries",
+                "label": "Humidity",
+                "units": "%"
+              }
+            ]
+          }
+        ]
+      },
+
+      "PowerFactorNumeric": {
+        "type": "card",
+        "title": "Power Factor",
+        "datasources": [
+          {
+            "type": "device",
+            "aliasName": "EnergyNode",
+            "dataKeys": [
+              {
+                "name": "pf",
+                "type": "timeseries",
+                "label": "PF",
+                "decimals": 3
+              }
+            ]
+          }
+        ]
+      },
+
+      "AlertIndicator": {
+        "type": "alarm",
+        "title": "Alerts",
+        "settings": {
+          "alarmLevels": ["critical", "major", "minor"],
+          "displayMode": "table"
+        }
+      }
+    },
+
+    "deviceAliases": {
+      "EnergyNode": {
+        "id": null,
+        "deviceId": "${DEVICE_ID_PLACEHOLDER}",
+        "deviceName": "${DEVICE_NAME}"
+      }
+    },
+
+    "layout": {
+      "gridSettings": {
+        "columns": 12,
+        "margins": 10
+      },
+      "widgetsPositions": {
+        "VoltageLineChart": { "x": 0, "y": 0, "w": 6, "h": 5 },
+        "CurrentLineChart": { "x": 6, "y": 0, "w": 6, "h": 5 },
+        "PowerLineChart": { "x": 0, "y": 5, "w": 12, "h": 5 },
+        "EnergyGauge": { "x": 0, "y": 10, "w": 4, "h": 4 },
+        "EnergyWeekChart": { "x": 4, "y": 10, "w": 8, "h": 4 },
+        "CostDaily": { "x": 0, "y": 14, "w": 3, "h": 3 },
+        "CostWeekly": { "x": 3, "y": 14, "w": 3, "h": 3 },
+        "RelaySwitch": { "x": 6, "y": 14, "w": 3, "h": 3 },
+        "TempHumidGauge": { "x": 9, "y": 14, "w": 3, "h": 3 },
+        "PowerFactorNumeric": { "x": 0, "y": 17, "w": 3, "h": 3 },
+        "AlertIndicator": { "x": 3, "y": 17, "w": 9, "h": 4 }
+      }
+    }
+  },
+
+  "type": "dashboard"
+}
