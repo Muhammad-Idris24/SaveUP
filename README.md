@@ -407,10 +407,10 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 ![soldering](docs/soldering.gif)
 
 ### Dashboard live chart GIF 
-![dashboard_live](docs/dashboard_live.mp4)
+<video src="https://drive.google.com/file/d/1hs2bJmc9Yy_GS-9_a4vhEnoFF1ux6UFD/view?usp=drive_link" controls width="100%"></video>
 
 ### Demo of anomaly detection on device serial logs 
-![ei_detect](docs/ei_detect.mp4`)
+<video src="https://drive.google.com/file/d/1K-HEXwurrjPs-uSjK6AqvI_mq2wXUg4D/view?usp=sharing" controls width="100%"></video>
 
 
 Here are strong **Notes & Next Steps** you can add to your documentation, covering engineering, ML, IoT, and product-level improvements.
