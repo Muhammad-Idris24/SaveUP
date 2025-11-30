@@ -8,7 +8,19 @@
 ## Edge Impulse Public Project Link:
 [Public Link](https://studio.edgeimpulse.com/public/840444/live)
 
-## TL;DR (elevator pitch)
+## Important Note 
+This project began on November 20th, 2025, and was officially submitted to the Edge AI Contest by Edge Impulse on November 30th, 2025. Given the extremely tight development timeline, achieving full accuracy and complete system integration was challenging. Nevertheless, the project is currently around 80% functional, and this documentation provides a clear, step-by-step guide for replicating the entire solution.
+
+Several areas have been identified for future improvement, including:
+- Retraining the ML model with a larger and more representative real-world dataset
+- Adding enhanced safety features and robust battery-management circuitry
+- Designing a protective enclosure
+- Creating a dedicated PCB for the final hardware
+- Advancing the system toward a production-ready form factor
+
+These improvements will significantly increase the reliability, efficiency, and overall product value.
+
+## Elevator Pitch
 Nigeria’s power crisis has become a daily math problem nobody wants to solve.
 Tariffs climbed, prepaid meters drain faster than people can say “unit don finish,” and every home, shop, hostel, and small business is now playing blindfolded hide-and-seek with their own appliances. Something is consuming power — but nobody knows what. Even engineers spend weeks probing circuits, guessing loads, swapping batteries, and upsizing solar components, only to walk away without real answers.
 
@@ -59,7 +71,7 @@ SaveUp turns energy awareness into energy savings, one plug at a time, proving t
 5. ThingsBoard dashboard shows live charts, cost widgets, and alarms; can send RPC `setRelay` to the node.
 
 (Insert animated GIF showing flow: sensor → device → ThingsBoard dashboard.)  
-`![flow gif](docs/flow.gif)`
+![flow gif](docs/flow.gif)
 
 ---
 
@@ -110,12 +122,14 @@ Assumptions: Mains = 230 VAC, 50 Hz (Nigeria). Use the ACS712 in series with liv
 - Relay IN → D3 (use a transistor/optocoupler if module is not opto)
 - LCD I²C → SDA/SCL (pins on Nano RP2040 Connect)
 
-**Schematic (visual)**: include `docs/schematic1.png` and `docs/schematic2.png`.  
-`![schematic](docs/schematic3.png)`
+**Schematic (visual)**: 
+![schematic](docs/schematic1.png)
+![schematic](docs/schematic2.png)
+![schematic](docs/schematic3.png)
 
 **Soldering & prototyping**
 - Steps: prepare perfboard, place modules, secure ACS712 with isolation, solder I2C lines for LCD, secure wires inside heat-shrink tubing, mount relay.
-- Add animated GIF: `docs/soldering.gif` showing soldering steps and hot-air.
+![Soldering](docs/soldering.gif)
 
 ---
 
@@ -128,6 +142,7 @@ Assumptions: Mains = 230 VAC, 50 Hz (Nigeria). Use the ACS712 in series with liv
 - MQTT to ThingsBoard: sends JSON telemetry periodically.
 - Edge Impulse inference runs on buffered window and sets `anomaly` flags.  
 - RPC `setRelay` supported for remote switching.
+
 ## Calibrate: bias & scale
 **Calibration script** (serial mode) measured these:
 Vbias = 1.449729f
@@ -148,12 +163,14 @@ CURRENT_SCALE = 0.264412100
 - ArduinoJson (v6.x)  
 - DHT sensor library  
 - LiquidCrystal_I2C  
-- Edge Impulse Arduino ZIP (your `ei-anomaly-detection-arduino-1.0.1.zip`)
+- Edge Impulse Arduino ZIP (the ![Anomaly Model](ei-anomaly-detection-arduino-1.0.1.zip)
 
 ## Where to find firmware
 - `Final_firmware_Version_1.0-alpha/Final_firmware_Version_1.0-alpha.ino` (main sketch)  
 - `SaveUp_Calibration_v1/SaveUp_Calibration_V1.ino` (bias & scale calibration helper)  
 - `firmware/measurement_only.ino` (minimal stable sampling for data collection)
+
+All within this repo
 
 ---
 
@@ -291,19 +308,17 @@ Rule Chains → + Add new Rule Chain → name SaveUp Alerts
 To remotely toggle relay: from ThingsBoard widget or REST API use RPC method setRelay with params true/false.
 
 ## Find the JSON files for dashboard and rule chain:
-- Dashboard - `./Dashboard.json`
-- Rule Chain - `./RULE CHAIN.json`
+- Dashboard - ![dashboard](./Dashboard.json)
+- Rule Chain - ![rule chain](./RULE%20CHAIN.json)
 
 ## Images from ThingsBoard Set Up:
-`docs/TB/1.png`
-`docs/TB/2.png`
-`docs/TB/4.png`
-`docs/TB/10.png`
-`docs/TB/9.png`
-`docs/TB/13.png`
-`docs/TB/12.png`
-`docs/TB/6.png`
-`docs/TB/5.png`
+![1](docs/TB/4.png)
+![2](docs/TB/10.png)
+![3](docs/TB/9.png)
+![4](docs/TB/13.png)
+![5](docs/TB/12.png)
+![6](docs/TB/6.png)
+![7](docs/TB/5.png)
 
 # 5. Dataset & Edge Impulse pipeline (Stage 5)
 ## Dataset collection
@@ -320,10 +335,10 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 **Note**: synthetic datasets are OK for prototyping but may not generalize to real-world faults.
 
 ## Images  from Data Collection:
-`docs/EI/1.png`
-`docs/EI/3.png`
-`docs/EI/4.png`
-`docs/EI/7.png`
+![1](docs/EI/1.png)
+![2](docs/EI/3.png)
+![3](docs/EI/4.png)
+![4](docs/EI/7.png)
 
 # 6. Pipeline creation (Edge Impulse)
 ## Impulse settings (recommended)
@@ -341,10 +356,9 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 - Anomaly detector is ideal when you lack many labeled fault examples.
 
 ## Images  from Impulse creation
-`docs/EI/8.png`
-`docs/EI/9.png`
-`docs/EI/10.png`
-`docs/EI/12.png`
+![1](docs/EI/8.png)
+![3](docs/EI/10.png)
+![4](docs/EI/12.png)
 
 # 7. Model training
 Train anomaly detector (start with default network); monitor AUC and ROC.
@@ -363,11 +377,10 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 - Quantization to int8 was chosen to reduce memory footprint for on-device inference.
 
 ## Images  from Model Training
-`docs/EI/13.png`
-`docs/EI/14.png`
-`docs/EI/15.png`
-`docs/EI/16.png`
-`docs/EI/17.png`
+![2](docs/EI/14.png)
+![3](docs/EI/15.png)
+![4](docs/EI/16.png)
+![5](docs/EI/17.png)
 
 # 8. Testing & deployment
 ## Export & integration
@@ -392,10 +405,211 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 
 
 ### Wiring + soldering GIF 
-`docs/soldering.gif`
+![soldering](docs/soldering.gif)
 
 ### Dashboard live chart GIF 
-`docs/dashboard_live.mp4`
+![dashboard_live](docs/dashboard_live.mp4)
 
 ### Demo of anomaly detection on device serial logs 
-`docs/ei_detect.mp4`
+![ei_detect](docs/ei_detect.mp4`)
+
+
+Here are strong **Notes & Next Steps** you can add to your documentation, covering engineering, ML, IoT, and product-level improvements.
+
+---
+
+# **📌 Notes & Next Steps (Recommended Section for README)**
+
+## **General Notes**
+
+* This project currently implements **power monitoring**, **auto lighting control**, **IoT telemetry**, and an **Edge Impulse anomaly detection model** for detecting abnormal electrical patterns.
+* Synthetic datasets were used due to time constraints. While sufficient for demonstrating functionality, *real-world data collection will significantly improve model reliability*.
+* The Nano RP2040 Connect offers WiFi and an onboard IMU, meaning this project can potentially do much more (multi-sensor fusion, vibration monitoring, power quality analysis, etc.).
+
+---
+
+# **🚀 NEXT STEPS (Technical + Product Roadmap)**
+
+## **1. Collect Real, High-Quality Dataset**
+
+To move from prototype → production:
+
+* Capture **hours** of real voltage/current waveforms.
+* Record multiple conditions:
+
+  * Normal operation at various loads
+  * Faults (over-voltage, over-current, unstable supply, loose connections, etc.)
+  * Different appliances
+* Include **labelled events**: turning ON/OFF, overload, spikes.
+
+This will dramatically increase anomaly detection reliability.
+
+---
+
+## **2. Expand ML Model Beyond Anomaly Detection**
+
+Once real data is available, add supervised models:
+
+* **Fault type classification**
+  Detect:
+
+  * Overload
+  * Arc faults
+  * Brownouts
+  * High THD
+  * Appliance signatures
+
+* **Load identification (NILM-lite)**
+  Identify which appliance is running based on V/I waveform.
+
+* **Predictive maintenance**
+  Monitor long-term current draw drift → detect device degradation.
+
+---
+
+## **3. Add Edge Processing Enhancements**
+
+Add more measurement features:
+
+* **RMS over sliding windows**
+* **Frequency estimation**
+* **Harmonic distortion**
+* **Power factor estimation**
+* **Inrush current detection**
+
+These become great features for ML pipelines.
+
+---
+
+## **4. Improve IoT Dashboard (ThingsBoard)**
+
+Enhance the visual experience:
+
+* Add **gauge widgets** for Vrms, Irms, Pavg.
+* Add **FFT visualizations** if you compute harmonics.
+* Add **alert panels** with color-coded severity.
+* Add **device control cards** (Lamp ON/OFF, mode switch).
+* Add **historical analytics** (24h, weekly, monthly trends).
+
+---
+
+## **5. Advanced Rule Chains**
+
+Add:
+
+* **Email/SMS alerting** via Twilio/SMTP
+* **Automated device shutdown** when anomalies exceed thresholds
+* **Machine learning decision nodes** (via EI inference scores)
+* **Alarm clearing logic** after normal behavior returns
+
+---
+
+## **6. Hardware Revision (if making PCB v2)**
+
+Improve hardware reliability:
+
+* Isolated AC measurement using:
+
+  * ZMPT101B (voltage)
+  * SCT-013-000 / ACS712 / INA219 (current)
+* Add:
+
+  * Fuse / MOV surge protector
+  * Zero-crossing detector
+  * EEPROM for storing calibration
+  * Hardware watchdog
+  * More stable voltage reference
+
+---
+
+## **7. OTA Updates**
+
+Implement **Over-The-Air firmware updates**:
+
+* Arduino IoT Cloud
+* ThingsBoard OTA
+* Custom HTTPS updater
+
+This makes long-term deployment viable.
+
+---
+
+## **8. Local Data Storage (Offline Mode)**
+
+Use on-board flash to buffer:
+
+* Last 5–60 minutes of telemetry
+* Anomaly occurrences
+* Raw waveform snapshots
+
+Upload when WiFi returns.
+
+---
+
+## **9. Improve Anomaly Detection Logic**
+
+Right now inference outputs “normal / anomaly score.”
+Next iteration:
+
+* Buffer multiple anomaly scores
+* Apply hysteresis to avoid false positives
+* Trigger alerts only after **consecutive anomalies**
+* Visualize anomaly score trend on dashboard
+
+---
+
+## **10. Add User Interaction Features**
+
+* Physical multi-function button (reset, calibration, mode switching)
+* Status LED patterns (WiFi, anomaly, error, safe mode)
+* Mobile-friendly dashboard
+
+---
+
+## **11. Add Auto Calibration Mode**
+
+At startup:
+
+* Capture **Vbias** and **Ibias** automatically
+* Save in settings
+* Reduce user setup complexity
+* Show bias values on dashboard for debugging
+
+---
+
+## **12. Move Towards Phase 3 – Commercial Ready Version**
+
+* Complete enclosure design (3D printed or molded)
+* Perform environmental testing
+* Add FCC/CE compliance considerations
+* Improve firmware robustness
+* Add secure provisioning for WiFi and IoT tokens
+
+---
+
+# Vision
+Our project solves a real problem in emerging markets: unreliable power quality and the lack of visibility into electrical faults. We built a smart energy monitoring device that measures voltage, current, and real-time usage while using TinyML to detect anomalies locally—even without internet.
+
+It reports insights to a ThingsBoard IoT dashboard, sends alerts when detecting abnormal electrical behavior, and even controls lighting automatically based on environmental conditions.
+
+With a scalable firmware architecture, on-device intelligence, synthetic data bootstrapping, and a clear roadmap for future supervised learning, this solution can grow into a low-cost, intelligent power safety device for homes, labs, and small businesses.
+
+---
+
+# Quick start (flash & run)
+## Prerequisites
+- Arduino IDE (latest) with RP2040 core
+- Libraries: WiFiNINA, PubSubClient, ArduinoJson, DHT, LiquidCrystal_I2C
+- Edge Impulse Arduino ZIP (installed)
+
+## Steps
+- Clone repo:
+    git clone https://github.com/muhammad-idris24/saveup.git
+    cd saveup
+- Open firmware/Final_firmware_Version_1.0-alpha.ino in Arduino IDE.
+- Edit Wi-Fi and ThingsBoard token at top of sketch.
+- Tools → Board → Arduino Nano RP2040 Connect. Choose correct port.
+- Build & Upload.
+- Open Serial Monitor (115200) — watch logs.
+- On ThingsBoard, create device and dashboard (token used in sketch).
+- For calibration: open firmware/calibrate_stage2.ino and follow prompts.
