@@ -129,7 +129,9 @@ Assumptions: Mains = 230 VAC, 50 Hz (Nigeria). Use the ACS712 in series with liv
 
 **Soldering & prototyping**
 - Steps: prepare perfboard, place modules, secure ACS712 with isolation, solder I2C lines for LCD, secure wires inside heat-shrink tubing, mount relay.
-![Soldering](docs/soldering.gif) ![soldering](docs/soldering2.jpg)
+  
+![Soldering](docs/soldering.gif) 
+![soldering](docs/soldering2.jpg)
 
 ---
 
@@ -404,7 +406,8 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 
 
 ### Wiring + soldering GIF 
-![soldering](docs/soldering.gif) ![soldering](docs/soldering2.jpg)
+![soldering](docs/soldering.gif) 
+![soldering](docs/soldering2.jpg)
 
 ### Dashboard live chart GIF 
 [Watch the dashboard video on Google Drive](https://drive.google.com/file/d/1hs2bJmc9Yy_GS-9_a4vhEnoFF1ux6UFD/view?usp=drive_link)
