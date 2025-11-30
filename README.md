@@ -163,7 +163,7 @@ CURRENT_SCALE = 0.264412100
 - ArduinoJson (v6.x)  
 - DHT sensor library  
 - LiquidCrystal_I2C  
-- Edge Impulse Arduino ZIP (the ![Anomaly Model](ei-anomaly-detection-arduino-1.0.1.zip)
+- Edge Impulse Arduino ZIP (the `./ei-anomaly-detection-arduino-1.0.1.zip`)
 
 ## Where to find firmware
 - `Final_firmware_Version_1.0-alpha/Final_firmware_Version_1.0-alpha.ino` (main sketch)  
@@ -308,8 +308,8 @@ Rule Chains → + Add new Rule Chain → name SaveUp Alerts
 To remotely toggle relay: from ThingsBoard widget or REST API use RPC method setRelay with params true/false.
 
 ## Find the JSON files for dashboard and rule chain:
-- Dashboard - ![dashboard](./Dashboard.json)
-- Rule Chain - ![rule chain](./RULE%20CHAIN.json)
+- Dashboard - (`/Dashboard.json`)
+- Rule Chain - (`./RULE CHAIN.json`)
 
 ## Images from ThingsBoard Set Up:
 ![1](docs/TB/4.png)
@@ -603,7 +603,7 @@ With a scalable firmware architecture, on-device intelligence, synthetic data bo
 
 ## Steps
 - Clone repo:
-    git clone https://github.com/muhammad-idris24/saveup.git
+    git clone https://github.com/muhammad-idris24/saveup.git <br>
     cd saveup
 - Open firmware/Final_firmware_Version_1.0-alpha.ino in Arduino IDE.
 - Edit Wi-Fi and ThingsBoard token at top of sketch.
