@@ -5,6 +5,9 @@
 
 ---
 
+## Edge Impulse Public Project Link:
+[Public Link](https://studio.edgeimpulse.com/public/840444/live)
+
 ## TL;DR (elevator pitch)
 Nigeria’s power crisis has become a daily math problem nobody wants to solve.
 Tariffs climbed, prepaid meters drain faster than people can say “unit don finish,” and every home, shop, hostel, and small business is now playing blindfolded hide-and-seek with their own appliances. Something is consuming power — but nobody knows what. Even engineers spend weeks probing circuits, guessing loads, swapping batteries, and upsizing solar components, only to walk away without real answers.
@@ -40,7 +43,6 @@ SaveUp turns energy awareness into energy savings, one plug at a time, proving t
 ---
 
 # 1. Project story & flow (start → finish)
-
 **Problem:** electricity costs are high and power is unreliable in Africa. Appliances waste energy due to standby losses or failing components (fridges, motors). Most people don't have appliance-level visibility.
 
 **Solution:** SaveUp — a small IoT node that:
@@ -62,7 +64,6 @@ SaveUp turns energy awareness into energy savings, one plug at a time, proving t
 ---
 
 # 2. Hardware design & prototype
-
 ## Chosen hardware & why
 - **Arduino Nano RP2040 Connect** — RP2040 performance + WiFi (good memory & community support. One can use better hardwares fromArduino, ESP, Raspberry Pi, etc.)  
 - **ACS712-05A** — affordable current sensor (±5 A) suitable for single-appliance loads (use appropriate variant, such as ACS712-20A (better choice but wasn't available at the time of this project) if expecting higher current).  
@@ -87,39 +88,27 @@ SaveUp turns energy awareness into energy savings, one plug at a time, proving t
 | **Total** |  |  | **~₦24,000–29,000** | |
 
 ## Circuit & wiring (Stage 1)
-
 **Important**: use fuses, insulated connectors, and keep mains wiring to a board with proper isolation. If unsure, ask a qualified electrician.
 
 Assumptions: Mains = 230 VAC, 50 Hz (Nigeria). Use the ACS712 in series with live/hot conductor only.
 
 ## Hardware wiring
 - **High-level**: Live (mains) → Fuse → **Relay** (COM) → Load (NO on relay) → Neutral.
-
 - Place **ACS712** in series on the live conductor between fuse and load (or between COM and NO depending on layout).
-
 - **ZMPT101B** module: connect module input across Live and Neutral (module provides isolated low-voltage AC output). Connect module output to RP2040 ADC through bias circuit if needed (ZMPT usually outputs AC centered around 0V — check module docs).
-
 - **ACS712**: VCC = 5 V (or 5 V supply if sensor needs 5 V), GND = common ground with MCU, OUT → MCU ADC (through biasing circuit). ACS712 output at 0 A = VCC/2.
-
 - **DHT11**: VCC = 5 V (or 3.3 V if module supports), DATA → RP2040 digital pin (with 4.7k–10k pull-up if required).
-
 - **I²C LCD**: SDA/SCL → RP2040 SDA/SCL (I²C pins), VCC 5 V or 3.3 V depending on module; level-shift if needed.
-
 - **RP2040 ADC**: ADC inputs expect 0–3.3 V. Do not feed >3.3 V. Use level shifting or scaling if required.
-
 - **Common ground**: keep MCU ground and sensor grounds common; but be mindful ZMPT101B provides isolation at module level — treat carefully.
 
-Pin (Arduino sketch-level):
+### Pin (Arduino sketch-level):
 
-ACS712 OUT → A0 (ADC)
-
-ZMPT101B OUT → A1 (ADC)
-
-DHT11 DATA → D2
-
-Relay IN → D3 (use a transistor/optocoupler if module is not opto)
-
-LCD I²C → SDA/SCL (pins on Nano RP2040 Connect)
+- ACS712 OUT → A0 (ADC)
+- ZMPT101B OUT → A1 (ADC)
+- DHT11 DATA → D2
+- Relay IN → D3 (use a transistor/optocoupler if module is not opto)
+- LCD I²C → SDA/SCL (pins on Nano RP2040 Connect)
 
 **Schematic (visual)**: include `docs/schematic1.png` and `docs/schematic2.png`.  
 `![schematic](docs/schematic3.png)`
@@ -131,7 +120,6 @@ LCD I²C → SDA/SCL (pins on Nano RP2040 Connect)
 ---
 
 # 3. Firmware (Stage 2–3 summary)
-
 ## What the firmware does (v1.0-alpha)
 - 2 kHz sampling (blocking window of 400 samples = 0.2 s).  
 - ADC → convert to volts with `ADC_TO_V`. Subtract bias `Vbias` / `Ibias`.  
@@ -140,7 +128,6 @@ LCD I²C → SDA/SCL (pins on Nano RP2040 Connect)
 - MQTT to ThingsBoard: sends JSON telemetry periodically.
 - Edge Impulse inference runs on buffered window and sets `anomaly` flags.  
 - RPC `setRelay` supported for remote switching.
-
 ## Calibrate: bias & scale
 **Calibration script** (serial mode) measured these:
 Vbias = 1.449729f
@@ -171,7 +158,6 @@ CURRENT_SCALE = 0.264412100
 ---
 
 # 4. ThingsBoard & IoT integration (Stage 4)
-
 ## Steps (simple)
 1. Create ThingsBoard Cloud or local account: **ThingsBoard Cloud** (or your host).  [Link](https://thingsboard.cloud/dashboards/all/ed478400-cc37-11f0-8d27-9f87c351edd8)
 2. Create Device: `SaveUp Device` → copy Access Token.  
@@ -320,7 +306,6 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 `docs/TB/5.png`
 
 # 5. Dataset & Edge Impulse pipeline (Stage 5)
-
 ## Dataset collection
 ### Strategy and produced dataset
 - What I collected: generated synthetic-ish time series derived from logged device samples (8 "normal" datasets, each 1 minute long) because time was limited.
@@ -341,7 +326,6 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 `docs/EI/7.png`
 
 # 6. Pipeline creation (Edge Impulse)
-
 ## Impulse settings (recommended)
 - Click on create impulse
 - Sampling rate: 2000 Hz
@@ -363,7 +347,6 @@ To remotely toggle relay: from ThingsBoard widget or REST API use RPC method set
 `docs/EI/12.png`
 
 # 7. Model training
-
 Train anomaly detector (start with default network); monitor AUC and ROC.
 - Click Train model (Anomaly).
 - Choose training options (leave defaults for first run).
@@ -387,7 +370,6 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 `docs/EI/17.png`
 
 # 8. Testing & deployment
-
 ## Export & integration
 - Export: Arduino library from Edge Impulse (zip).
 - Install via Arduino IDE → Include .ZIP Library.
@@ -402,21 +384,18 @@ Tune model size, quantization (int8) and try to keep RAM < 64 KB and Flash < 200
 - Verify telemetry anomaly and anomaly_score land in ThingsBoard and trigger Rule Chain alarms.
 - Test RPC control from ThingsBoard and safety trip behavior.
 
-9. Real-world demos & visuals
-What SaveUp does in the field
+# 9. Real-world demos & visuals
+## What SaveUp does in the field
+- Live dashboards show Vrms/Irms/time-series + Wh totals.
+- When an anomaly is detected (bearing fault / compressor failure / standby losses), device sets anomaly=true and sends anomaly_score.
+- Rule Chain can raise an alarm and optionally cut power via relay (auto-shutdown on severe faults).
 
-Live dashboards show Vrms/Irms/time-series + Wh totals.
 
-When an anomaly is detected (bearing fault / compressor failure / standby losses), device sets anomaly=true and sends anomaly_score.
+### Wiring + soldering GIF 
+`docs/soldering.gif`
 
-Rule Chain can raise an alarm and optionally cut power via relay (auto-shutdown on severe faults).
+### Dashboard live chart GIF 
+`docs/dashboard_live.mp4`
 
-Include animated screenshots & short video:
-
-Wiring + soldering GIF (docs/soldering.gif)
-
-Dashboard live chart GIF (docs/dashboard_live.gif)
-
-Demo of anomaly detection on device serial logs (docs/ei_detect.gif)
-
-Short explainer video (30–60 s) demonstrating end-to-end.
+### Demo of anomaly detection on device serial logs 
+`docs/ei_detect.mp4`
