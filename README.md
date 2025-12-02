@@ -20,6 +20,27 @@ Several areas have been identified for future improvement, including:
 
 These improvements will significantly increase the reliability, efficiency, and overall product value.
 
+---
+# Quick start (flash & run)
+## Prerequisites
+- Arduino IDE (latest) with RP2040 core
+- Libraries: WiFiNINA, PubSubClient, ArduinoJson, DHT, LiquidCrystal_I2C
+- Edge Impulse Arduino ZIP (installed)
+
+## Steps
+- Clone repo:
+    git clone https://github.com/muhammad-idris24/saveup.git <br>
+    cd saveup
+- Open firmware/Final_firmware_Version_1.0-alpha.ino in Arduino IDE.
+- Edit Wi-Fi and ThingsBoard token at top of sketch.
+- Tools → Board → Arduino Nano RP2040 Connect. Choose correct port.
+- Build & Upload.
+- Open Serial Monitor (115200) — watch logs.
+- On ThingsBoard, create device and dashboard (token used in sketch).
+- For calibration: open firmware/calibrate_stage2.ino and follow prompts.
+
+---
+
 ## Elevator Pitch
 Nigeria’s power crisis has become a daily math problem nobody wants to solve.
 Tariffs climbed, prepaid meters drain faster than people can say “unit don finish,” and every home, shop, hostel, and small business is now playing blindfolded hide-and-seek with their own appliances. Something is consuming power — but nobody knows what. Even engineers spend weeks probing circuits, guessing loads, swapping batteries, and upsizing solar components, only to walk away without real answers.
@@ -595,21 +616,3 @@ It reports insights to a ThingsBoard IoT dashboard, sends alerts when detecting 
 With a scalable firmware architecture, on-device intelligence, synthetic data bootstrapping, and a clear roadmap for future supervised learning, this solution can grow into a low-cost, intelligent power safety device for homes, labs, and small businesses.
 
 ---
-
-# Quick start (flash & run)
-## Prerequisites
-- Arduino IDE (latest) with RP2040 core
-- Libraries: WiFiNINA, PubSubClient, ArduinoJson, DHT, LiquidCrystal_I2C
-- Edge Impulse Arduino ZIP (installed)
-
-## Steps
-- Clone repo:
-    git clone https://github.com/muhammad-idris24/saveup.git <br>
-    cd saveup
-- Open firmware/Final_firmware_Version_1.0-alpha.ino in Arduino IDE.
-- Edit Wi-Fi and ThingsBoard token at top of sketch.
-- Tools → Board → Arduino Nano RP2040 Connect. Choose correct port.
-- Build & Upload.
-- Open Serial Monitor (115200) — watch logs.
-- On ThingsBoard, create device and dashboard (token used in sketch).
-- For calibration: open firmware/calibrate_stage2.ino and follow prompts.
